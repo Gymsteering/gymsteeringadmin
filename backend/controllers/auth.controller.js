@@ -1,7 +1,7 @@
 import { catchAsyncError } from "../middlewares/catchAsyncError.middleware.js";
-import RegisterService from "../services/register.service.js";
-import LoginService from "../services/login.service.js"
-import ForgotPasswordService from "../services/forgotPassword.service.js"
+import RegisterService from "../services/auth/register.service.js";
+import LoginService from "../services/auth/login.service.js"
+import ForgotPasswordService from "../services/auth/forgotPassword.service.js"
 import ErrorHandler from "../utils/errorHandler.utils.js"
 import { sendToken } from "../utils/sendToken.utils.js";
 

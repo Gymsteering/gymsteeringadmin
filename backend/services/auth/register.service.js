@@ -40,7 +40,7 @@ class RegisterService {
         }
 
         try {
-            const [user] = await db.query("INSERT INTO user (name, email , gender , DOB, password , address , role, FPId ) VALUES (?,?,?,?,?,?,?,?)", [name, email, gender, DOB, hashedPassword, address, "admin", FPId]);
+            const [user] = await db.query("INSERT INTO user (name, email , gender , DOB, password , address , role, FPId ) VALUES (?,?,?,?,?,?,?,?)", [name, email, gender, DOB, hashedPassword, address, "A", FPId]);
             await db.query("INSERT INTO admin (userId) VALUES (?)", [user.insertId]);
         } catch (error) {
             if (user?.insertId) {

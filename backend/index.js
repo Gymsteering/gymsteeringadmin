@@ -11,9 +11,11 @@ app.use(bodyParser.json())
 
 const PORT = process.env.PORT;
 
-import auth from "./routes/auth.route.js"
+import authRoute from "./routes/auth.route.js"
+import customerRoute from "./routes/customer.route.js"
 
-app.use('/api/auth',auth);
+app.use('/api/auth',authRoute);
+app.use('/api/customer',customerRoute);
 
 app.use(error);
 
