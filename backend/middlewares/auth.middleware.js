@@ -1,5 +1,5 @@
 import ErrorHandler from "../utils/errorHandler.utils.js"
-import { catchAsyncError } from "./catchAsyncError.middleware";
+import { catchAsyncError } from "./catchAsyncError.middleware.js";
 import jwt from "jsonwebtoken";
 import db from "../db/connection.js";
 

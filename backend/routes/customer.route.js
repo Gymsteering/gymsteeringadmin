@@ -1,6 +1,6 @@
 import express from "express";
 import { isAuthorize } from "../middlewares/auth.middleware.js";
-import { getAllCustomer, getCustomer, addCustomer, updateCustomer, deleteCustomer } from "../controllers/customer.controller";
+import { getAllCustomer, getCustomer, addCustomer, updateCustomer, deleteCustomer } from "../controllers/customer.controller.js";
 
 const router = express.Router();
 

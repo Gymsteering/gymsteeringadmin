@@ -1,6 +1,6 @@
-import db from "../db/connection.js";
-import { getResetPasswordToken, hashPassword } from "../utils/password.utils.js";
-import { sendMail } from "../utils/sendMail.utils.js";
+import db from "../../db/connection.js";
+import { getResetPasswordToken, hashPassword } from "../../utils/password.utils.js";
+import { sendMail } from "../../utils/sendMail.utils.js";
 import crypto from "crypto";
 
 

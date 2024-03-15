@@ -1,4 +1,4 @@
-import db from "../db/connection.js";
+import db from "../../db/connection.js";
 
 // should i use try-catch and class ?
 

@@ -1,5 +1,5 @@
-import db from "../db/connection.js";
-import { comparePassword } from "../utils/password.utils.js";
+import db from "../../db/connection.js";
+import { comparePassword } from "../../utils/password.utils.js";
 class LoginService {
     async login(data) {
         const { email, password } = data;
