@@ -8,7 +8,7 @@ class RegisterService {
         const { name, gender, email, DOB, address, FPId, phone1, phone2 } = data;
 
         if (!name || !email || !DOB || !gender || !address || !FPId || !phone1) {
-            return { success: false, message: "Please Provide The Required Details", statusCode: 400 };
+            return { success: false, message: "Please Provide All The Required Details", statusCode: 400 };
         }
 
         try {
@@ -16,19 +16,19 @@ class RegisterService {
             if (resultForEmail.length) {
                 return { success: false, message: "Email Already Exist", statusCode: 400 };
             }
-            const [resultForPhone1] = await db.query("SELECT * FROM phone WHERE phone1 = ? OR phone2 = ? LIMIT 1", [phone1]);
+            const [resultForPhone1] = await db.query("SELECT * FROM phone WHERE mobile = ? LIMIT 1", [phone1]);
             if (resultForPhone1) {
                 return { success: false, message: "Phone Number 1 Already Exist", statusCode: 400 };
             }
             if (phone2) {
-                const [resultForPhone2] = await db.query("SELECT * FROM phone WHERE phone1 = ? OR phone2 = ? LIMIT 1", [phone2]);
+                const [resultForPhone2] = await db.query("SELECT * FROM phone WHERE mobile = ? LIMIT 1", [phone2]);
                 if (resultForPhone2) {
                     return { success: false, message: "Phone Number 2 Already Exist", statusCode: 400 };
                 }
             }
 
         } catch (error) {
-            console.log("error for register", error)
+            console.log("Error in register", error)
             return { success: false, message: "Server Side Error", statusCode: 500 };
         }
 

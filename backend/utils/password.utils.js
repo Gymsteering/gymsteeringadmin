@@ -17,7 +17,6 @@ export const hashPassword = async (password) => {
         const hashedPassword = await bcrypt.hash(password.toString(), saltRounds);
         return hashedPassword;
     } catch (error) {
-        // console.error('Error hashing password:', error);
         throw error;
     }
 };
