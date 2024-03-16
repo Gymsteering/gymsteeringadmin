@@ -5,7 +5,7 @@ import { sendMail } from "../../utils/sendMail.utils.js";
 
 
 class VerifyCustomerService {
-    async sendOTP(data) {
+    async customerSendOTP(data) {
         const { email } = data;
 
         if (!email) {
@@ -45,7 +45,7 @@ class VerifyCustomerService {
         }
     }
 
-    async verifyOTP(data) {
+    async customerVerifyOTP(data) {
         const { email, otp } = data;
 
         if (!email || !otp) {
@@ -70,3 +70,5 @@ class VerifyCustomerService {
 
     }
 }
+
+export default VerifyCustomerService
