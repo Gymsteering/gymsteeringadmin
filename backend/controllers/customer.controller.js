@@ -3,26 +3,56 @@ import ErrorHandler from "../utils/errorHandler.utils.js"
 import { sendResponse } from "../utils/sendResponse.utils.js";
 import AddCustomerService from "../services/customer/addCustomer.service.js";
 import VerifyCustomerService from "../services/customer/verifyCustomer.service.js"
+import GetAllCustomerService from "../services/customer/getAllCustomers.service.js";
+import GetCustomerService from "../services/customer/getCustomer.service.js";
 
 
 export const getAllCustomer = catchAsyncError(async (req, res, next) => {
- 
+    const getAllCustomerService = new GetAllCustomerService();
+
+    const {success, message, statusCode, data} = await getAllCustomerService.getAllCustomer();
+    
+    if(!success){
+        return next(new ErrorHandler(message, statusCode));
+    }
+    sendResponse(res ,message, statusCode , data);
 })
 
 export const getCustomer = catchAsyncError(async(req, res ,next )=>{
+    const getCustomerService = new GetCustomerService();
+
+    const {success, message, statusCode, data} = await getCustomerService.getCustomer(req.body);
+    
+    if(!success){
+        return next(new ErrorHandler(message, statusCode));
+    }
+    sendResponse(res ,message, statusCode , data);
 
 })
 
-export const verifyCustomer = catchAsyncError(async(req, res, next)=>{
+export const sendOTPToCustomer = catchAsyncError(async(req, res, next)=>{
     const verifyCustomerService = new VerifyCustomerService();
-
-    const {success, message, statusCode, data} = await verifyCustomerService.customerVerifyOTP();
+    
+    const {success, message, statusCode, data} = await verifyCustomerService.customerSendOTP(req.body);
 
     if(!success){
         return next(new ErrorHandler(message, statusCode));
     }
     sendResponse(res ,message, statusCode , data);
 })
+
+
+export const verifyOTPCustomer = catchAsyncError(async(req, res, next)=>{
+    const verifyCustomerService = new VerifyCustomerService();
+
+    const {success, message, statusCode, data} = await verifyCustomerService.customerVerifyOTP(req.body);
+
+    if(!success){
+        return next(new ErrorHandler(message, statusCode));
+    }
+    sendResponse(res ,message, statusCode , data);
+})
+
 
 export const addCustomer = catchAsyncError(async(req, res ,next )=>{
     const addCustomerService = new AddCustomerService();
@@ -34,8 +64,6 @@ export const addCustomer = catchAsyncError(async(req, res ,next )=>{
     }
     sendResponse(res ,message, statusCode , data);
 })
-
-
 
 export const updateCustomer = catchAsyncError(async(req, res ,next )=>{
     

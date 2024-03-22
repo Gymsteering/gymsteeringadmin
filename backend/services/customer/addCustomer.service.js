@@ -16,12 +16,12 @@ class AddCustomerService {
                 return { success: false, message: "Email Already Exist", statusCode: 400 };
             }
             const [resultForPhone1] = await db.query("SELECT * FROM phone WHERE mobile = ? LIMIT 1", [phone1]);
-            if (resultForPhone1) {
+            if (resultForPhone1.length) {
                 return { success: false, message: "Phone Number 1 Already Exist", statusCode: 400 };
             }
             if (phone2) {
                 const [resultForPhone2] = await db.query("SELECT * FROM phone WHERE mobile = ? LIMIT 1", [phone2]);
-                if (resultForPhone2) {
+                if (resultForPhone2.length) {
                     return { success: false, message: "Phone Number 2 Already Exist", statusCode: 400 };
                 }
             }

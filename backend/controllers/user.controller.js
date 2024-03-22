@@ -1,6 +1,6 @@
-import GetAllUserService from "../services/user/getAllUser.service";
-import GetUserService from "../services/user/getUser.service";
-import { catchAsyncError } from "../middlewares/catchAsyncError.middleware";
+import GetAllUserService from "../services/user/getAllUser.service.js";
+import GetUserService from "../services/user/getUser.service.js";
+import { catchAsyncError } from "../middlewares/catchAsyncError.middleware.js";
 export const getAllUser = catchAsyncError(async (req, res, next) => {
     const getAllUserService = new GetAllUserService();
 

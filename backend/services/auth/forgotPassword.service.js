@@ -7,12 +7,12 @@ import crypto from "crypto";
 class ForgotPasswordService {
     async forgotPassword(req, data) {
         const { email } = data;
-
+        
         if (!email) {
             return { success: false, message: "Please Provide The Required Details", statusCode: 400 };
         }
 
-        const [user] = await db.query("SELECT * FROM user WHERE email = ? LIMIT 1", [email]);
+        const [user] = await db.query("SELECT * FROM user WHERE email = ? AND role = ? LIMIT 1", [email, 'A']);
 
         if (!user.length) {
             return { success: false, message: "User Not Found", statusCode: 400 };
@@ -20,13 +20,14 @@ class ForgotPasswordService {
 
         try {
             var { resetToken, resetPasswordToken, resetPasswordExpire } = await getResetPasswordToken();
+            console.log(resetPasswordExpire)
             await db.query("UPDATE user SET resetPasswordToken = ?, resetPasswordExpire = ? WHERE id = ?", [resetPasswordToken, resetPasswordExpire, user[0].id]);
 
         } catch (error) {
             return { success: false, message: "Server Side Error", statusCode: 400 };
         }
 
-        const resetPasswordUrl = `${req.protocol}://${req.get("host")}/reset/password/${resetToken}`;
+        const resetPasswordUrl = `${req.protocol}://${req.get("host")}/api/auth/password/reset/${resetToken}`;
         const message = `Your password reset Token is : \n\n ${resetPasswordUrl} \n\n If you did not request this email then, Please ignore it`
         try {
             await sendMail({
@@ -35,7 +36,7 @@ class ForgotPasswordService {
                 message
             })
         } catch (error) {
-            await db.query("UPDATE user SET resetPasswordToken = ?, resetPasswordExpire = ? WHERE id = ?", [NULL, NULL, user[0].id]);
+            await db.query("UPDATE user SET resetPasswordToken = ?, resetPasswordExpire = ? WHERE id = ?", [null, null, user[0].id]);
             return { success: false, message: error.message, statusCode: 500 };
         }
 
@@ -46,7 +47,7 @@ class ForgotPasswordService {
         const { newPassword ,token } = data;
 
         if (!token || !newPassword) {
-            return { success: false, message: "Please Provide The Required Details", statusCode: 404 };
+            return { success: false, message: "Please Provide The Required Details", statusCode: 400 };
         }
 
         const resetPasswordToken = crypto.createHash("sha256").update(token).digest("hex");
@@ -56,10 +57,12 @@ class ForgotPasswordService {
         if (!user.length) {
             return { success: false, message: "Link Is Invalid Or Expire" };
         }
+        console.log(user[0]);
         
         try {
             const hashedPassword = await hashPassword(newPassword);
-            await db.query("UPDATE user SET password = ? ,resetPasswordToken = ?, resetPasswordExpire = ? WHERE id = ?", [hashedPassword, NULL, NULL, user[0].id]);
+            console.log(hashedPassword);
+            await db.query("UPDATE user SET password = ? ,resetPasswordToken = ?, resetPasswordExpire = ? WHERE id = ?", [hashedPassword, null, null, user[0].id]);
         } catch (error) {
             return { success: false, message: "Server Side Error", statusCode: 500 };
         }

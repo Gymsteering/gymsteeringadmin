@@ -4,10 +4,10 @@ import { getAllGym, getGym, addGym, updateGym, deleteGym } from "../controllers/
 
 const router = express.Router();
 
-router.get("/all", isAuthorize, getAllGym);
-router.get("/:id", isAuthorize, getGym);
+router.get("/get/all", isAuthorize, getAllGym);
+router.get("/get/:id", isAuthorize, getGym);
 router.post("/add", isAuthorize, addGym);
-router.put("/:id", isAuthorize, updateGym);
-router.delete("/:id", isAuthorize, deleteGym);
+router.put("/update/:id", isAuthorize, updateGym);
+router.delete("/delete/:id", isAuthorize, deleteGym);
 
 export default router;

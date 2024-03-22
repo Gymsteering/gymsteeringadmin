@@ -7,13 +7,12 @@ import { sendMail } from "../../utils/sendMail.utils.js";
 class VerifyCustomerService {
     async customerSendOTP(data) {
         const { email } = data;
-
         if (!email) {
             return { success: false, message: "Please Provide All The Required Details", statusCode: 400 };
         }
 
         try {
-            const [user] = await db.query("SELECT * FROM user WHERE email = ? LIMIT 1", [email]);
+            const [user] = await db.query("SELECT * FROM user WHERE email = ? AND role = ? LIMIT 1", [email, 'O']);
             if (!user.length) {
                 return { success: false, message: "Email Does Not Exist", statusCode: 400 };
             }
@@ -21,7 +20,7 @@ class VerifyCustomerService {
             const { otp, expiry } = generateOTP();
             await db.query("UPDATE user SET otp = ?, otpExpiry = ? WHERE id = ?", [otp, expiry, user[0].id]);
 
-            const message = `Your request are requested for registering new gym to GYMSteering, \n\n ${otp} \n\n. If you did not request then don't share the otp with anyone and contact us`;
+            const message = `You are requested for registering new gym to GYMSteering, \n\n ${otp} \n\n. If you did not request then don't share the otp with anyone and contact us`;
 
             try {
                 await sendMail({
@@ -59,7 +58,7 @@ class VerifyCustomerService {
                 return { success: false, message: "Invalid OTP", statusCode: 400 };
             }
 
-            await db.query("UPDATE user SET otp = ? , otpExpiry = ? WHERE id = ?", [NULL, NULL, user[0].id]);
+            await db.query("UPDATE user SET otp = ? , otpExpiry = ? WHERE id = ?", [null, null, user[0].id]);
 
             return { success: true, message: "OTP Verified Successfully", statusCode: 200, data: user[0] };
 
